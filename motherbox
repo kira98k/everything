@@ -1,0 +1,43 @@
+#!/bin/bash
+
+command=$1
+shift
+CURR_DIR=$PWD
+MOTHERBOX=$(dirname $(realpath $0))
+cd $MOTHERBOX
+
+null() { $@ 1>/dev/null 2>/dev/null; }
+
+if [[ $command == "cpp" ]] || [[ $command == "" ]]; then
+	echo "Running Container..."
+	docker run $@ --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+		-p 8001-8010:8001-8010 -h motherbox \
+		-v $CURR_DIR:/code \
+		-it motherbox bash -c "make"
+	echo "Exiting Container..."
+elif [[ $command == "py" ]]; then
+	cat inp.txt | python3 template.py
+elif [[ $command == "rs" ]]; then
+	rustc template.rs
+	cat inp.txt | ./template
+	rm template
+elif [[ $command == "build" ]]; then
+	RUNNING_CONTAINER_ID=$(docker ps -f name=motherbox -q)
+	if [[ $RUNNING_CONTAINER_ID != "" ]]; then
+		echo "Stopping Container $RUNNING_CONTAINER_ID..."
+		null docker stop $RUNNING_CONTAINER_ID
+	fi
+	STOPPED_CONTAINER_ID=$(docker ps -f name=motherbox -q --all)
+	if [[ $STOPPED_CONTAINER_ID != "" ]]; then
+		echo "Removing Container $STOPPED_CONTAINER_ID..."
+		null docker rm $STOPPED_CONTAINER_ID
+	fi
+	docker build $@ . -t motherbox:latest
+else
+	echo "Running Container..."
+	docker run $@ --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+		-p 8001-8010:8001-8010 -h motherbox \
+		-v $CURR_DIR:/code \
+		-it motherbox $command
+	echo "Exiting Container..."
+fi

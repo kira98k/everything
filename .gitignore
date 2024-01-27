@@ -1,0 +1,9 @@
+# Ignore Virtual Environments
+venv*
+
+# Ignore Python Bytecode
+*.pyc
+__pycache__
+
+# Stupid mac files
+.DS_Store
