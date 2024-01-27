@@ -9,12 +9,10 @@ cd $MOTHERBOX
 null() { $@ 1>/dev/null 2>/dev/null; }
 
 if [[ $command == "cpp" ]] || [[ $command == "" ]]; then
-	echo "Running Container..."
 	docker run $@ --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
 		-p 8001-8010:8001-8010 -h motherbox \
 		-v $CURR_DIR:/code \
 		-it motherbox bash -c "make"
-	echo "Exiting Container..."
 elif [[ $command == "py" ]]; then
 	cat inp.txt | python3 template.py
 elif [[ $command == "rs" ]]; then

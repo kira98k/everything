@@ -78,6 +78,7 @@ YOU CAN DO THIS! ;)
 5. Always check output format.
 */
 void solve() {
+	cout << "Hello, World!" << endl;
 }
 
 int main() {
@@ -88,11 +89,14 @@ int main() {
 	rep(tc, 0, t) {
 		#ifdef DEBUG
 		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+		cout << "Case #" << tc << ": " << endl;
+		cout << "------------------------------" << endl;
 		#endif
 		solve();
 		#ifdef DEBUG
 		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-		cout << "Case #" << tc << ": " << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << "[ms]" << endl;
+		cout << "------------------------------" << endl;
+		cout << "Time Taken: " << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << "[ms]" << endl << endl;
 		#endif
 	}
 }
