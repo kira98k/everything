@@ -1,13 +1,11 @@
+all:
+	./motherbox cpp
 
 cpp:
-	@g++ template.cpp -o template -D DEBUG
-	@./template < inp.txt
-	@rm template
+	@./motherbox cpp
 
 rust:
-	@rustc template.rs
-	@./template < inp.txt
-	@rm template
+	@./motherbox rust
 
 python:
-	@python3 template.py < inp.txt
+	@./motherbox python

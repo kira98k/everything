@@ -29,7 +29,7 @@ run() {
 	docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
 	-p 8001-8010:8001-8010 -h motherbox \
 	-v $CURR_DIR:/code \
-	-it $IMAGE make $@
+	-it $IMAGE make -f Docker.makefile $@
 }
 
 delete() {
