@@ -10,29 +10,7 @@ IMAGE="motherbox:latest"
 
 null() { $@ 1>/dev/null 2>/dev/null; }
 
-
-build() {
-	RUNNING_CONTAINER_ID=$(docker ps -f name=motherbox -q)
-	if [[ $RUNNING_CONTAINER_ID != "" ]]; then
-		echo "Stopping Container $RUNNING_CONTAINER_ID..."
-		null docker stop $RUNNING_CONTAINER_ID
-	fi
-	STOPPED_CONTAINER_ID=$(docker ps -f name=motherbox -q --all)
-	if [[ $STOPPED_CONTAINER_ID != "" ]]; then
-		echo "Removing Container $STOPPED_CONTAINER_ID..."
-		null docker rm $STOPPED_CONTAINER_ID
-	fi
-	docker build $@ . -t $IMAGE
-}
-
-run() {
-	docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-	-p 8001-8010:8001-8010 -h motherbox \
-	-v $CURR_DIR:/code \
-	-it $IMAGE make -f Docker.makefile $@
-}
-
-delete() {
+clean() {
 	RUNNING_CONTAINER_ID=$(docker ps -f ancestor=$IMAGE -q)
 	if [[ $RUNNING_CONTAINER_ID != "" ]]; then
 		echo "Stopping Container $RUNNING_CONTAINER_ID..."
@@ -48,11 +26,24 @@ delete() {
 	fi
 }
 
+build() {
+	clean 
+	docker build $@ . -t $IMAGE
+}
+
+run() {
+	docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+	-p 8001-8010:8001-8010 -h motherbox \
+	-v $CURR_DIR:/code \
+	-it $IMAGE make -f Docker.makefile $@
+}
+
+
 if [[ $command == "build" ]]; then
 	build --no-cache
 	exit 0
-elif [[ $command == "delete" ]]; then
-	delete
+elif [[ $command == "clean" ]]; then
+	clean
 	exit 0
 elif [[ $command == "" ]]; then
 	command="cpp"

@@ -1,6 +1,9 @@
 all:
 	./motherbox cpp
 
+build:
+	./motherbox build
+
 cpp:
 	@./motherbox cpp
 
@@ -9,3 +12,6 @@ rust:
 
 python:
 	@./motherbox python
+
+clean:
+	./motherbox clean
