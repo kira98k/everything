@@ -6,20 +6,12 @@ CURR_DIR=$PWD
 MOTHERBOX=$(dirname $(realpath $0))
 cd $MOTHERBOX
 
+IMAGE="motherbox:latest"
+
 null() { $@ 1>/dev/null 2>/dev/null; }
 
-if [[ $command == "cpp" ]] || [[ $command == "" ]]; then
-	docker run $@ --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-		-p 8001-8010:8001-8010 -h motherbox \
-		-v $CURR_DIR:/code \
-		-it motherbox bash -c "make"
-elif [[ $command == "py" ]]; then
-	cat inp.txt | python3 template.py
-elif [[ $command == "rs" ]]; then
-	rustc template.rs
-	cat inp.txt | ./template
-	rm template
-elif [[ $command == "build" ]]; then
+
+build() {
 	RUNNING_CONTAINER_ID=$(docker ps -f name=motherbox -q)
 	if [[ $RUNNING_CONTAINER_ID != "" ]]; then
 		echo "Stopping Container $RUNNING_CONTAINER_ID..."
@@ -30,12 +22,46 @@ elif [[ $command == "build" ]]; then
 		echo "Removing Container $STOPPED_CONTAINER_ID..."
 		null docker rm $STOPPED_CONTAINER_ID
 	fi
-	docker build $@ . -t motherbox:latest
-else
-	echo "Running Container..."
-	docker run $@ --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-		-p 8001-8010:8001-8010 -h motherbox \
-		-v $CURR_DIR:/code \
-		-it motherbox $command
-	echo "Exiting Container..."
+	docker build $@ . -t $IMAGE
+}
+
+run() {
+	docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+	-p 8001-8010:8001-8010 -h motherbox \
+	-v $CURR_DIR:/code \
+	-it $IMAGE make $@
+}
+
+delete() {
+	RUNNING_CONTAINER_ID=$(docker ps -f ancestor=$IMAGE -q)
+	if [[ $RUNNING_CONTAINER_ID != "" ]]; then
+		echo "Stopping Container $RUNNING_CONTAINER_ID..."
+		null docker stop $RUNNING_CONTAINER_ID
+	fi
+	STOPPED_CONTAINER_ID=$(docker ps -af ancestor=$IMAGE -q)
+	if [[ $STOPPED_CONTAINER_ID != "" ]]; then
+		echo "Removing Container $STOPPED_CONTAINER_ID..."
+		null docker rm $STOPPED_CONTAINER_ID
+	fi
+	if [ -z "$(docker images -q $IMAGE)" ]; then
+  		docker rmi $IMAGE
+	fi
+}
+
+if [[ $command == "build" ]]; then
+	build --no-cache
+	exit 0
+elif [[ $command == "delete" ]]; then
+	delete
+	exit 0
+elif [[ $command == "" ]]; then
+	command="cpp"
 fi
+
+
+if [ -z "$(docker images -q $IMAGE)" ]; then
+  build
+fi
+
+run $command
+

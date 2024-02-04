@@ -14,4 +14,3 @@ def g(x):
 for i in range(1, 300):
 	print(f"{i} : {bin(i)[2:]} : {f(i)} + {g(i)} = {f(i)+g(i)}")
 
-
