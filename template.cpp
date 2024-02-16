@@ -11,7 +11,7 @@
 #define svll(x, n) VLL x(n); rep(i, 0, n) x[i] = scanLong();
 #define pi(x) printf("%d ", x)
 #define pll(x) printf("%lld ", x)
-#define pvll(x) for(auto it : x)	pll(it);
+#define pvll(x) for(auto it : x)    pll(it);
 #define nl printf("\n")
 #define clr(a) memset(a, 0, sizeof(a))
 #define PB push_back
@@ -37,33 +37,33 @@ const LL MOD = 1e9+7;
 
 /* Fast I/O */
 inline int scanInt() {
-	int n = 0;
-	char ch = getchar();
-	int sign = 1;
-	while(ch < '0' || ch > '9') {
-		if(ch == '-')	sign = -1;
-		ch = getchar();
-	}
-	while(ch >= '0' && ch <= '9') {
-		n = (n<<1)+(n<<3)+(int)(ch-'0');
-		ch = getchar();
-	}
-	return n*sign;
+    int n = 0;
+    char ch = getchar();
+    int sign = 1;
+    while(ch < '0' || ch > '9') {
+        if(ch == '-')   sign = -1;
+        ch = getchar();
+    }
+    while(ch >= '0' && ch <= '9') {
+        n = (n<<1)+(n<<3)+(int)(ch-'0');
+        ch = getchar();
+    }
+    return n*sign;
 }
 
 inline LL scanLong() {
-	LL n = 0;
-	char ch = getchar();
-	LL sign = 1;
-	while(ch < '0' || ch > '9') {
-		if(ch == '-')	sign = -1;
-		ch = getchar();
-	}
-	while(ch >= '0' && ch <= '9') {
-		n = (n<<1)+(n<<3)+(LL)(ch-'0');
-		ch = getchar();
-	}
-	return n*sign;
+    LL n = 0;
+    char ch = getchar();
+    LL sign = 1;
+    while(ch < '0' || ch > '9') {
+        if(ch == '-')   sign = -1;
+        ch = getchar();
+    }
+    while(ch >= '0' && ch <= '9') {
+        n = (n<<1)+(n<<3)+(LL)(ch-'0');
+        ch = getchar();
+    }
+    return n*sign;
 }
 
 
@@ -78,27 +78,27 @@ YOU CAN DO THIS! ;)
 5. Always check output format.
 */
 void solve() {
-	cout << "Hello, World!" << endl;
+    cout << "Hello, World!" << endl;
 }
 
 int main() {
 
-	// sll(t);
-	LL t = 1;
+    // sll(t);
+    LL t = 1;
 
-	rep(tc, 0, t) {
-		#ifdef DEBUG
-		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-		cout << "Case #" << tc << ": " << endl;
-		cout << "------------------------------" << endl;
-		#endif
-		solve();
-		#ifdef DEBUG
-		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-		cout << "------------------------------" << endl;
-		cout << "Time Taken: " << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << "[ms]" << endl << endl;
-		#endif
-	}
+    rep(tc, 0, t) {
+        #ifdef DEBUG
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+        cout << "Case #" << tc << ": " << endl;
+        cout << "------------------------------" << endl;
+        #endif
+        solve();
+        #ifdef DEBUG
+        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+        cout << "------------------------------" << endl;
+        cout << "Time Taken: " << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << "[ms]" << endl << endl;
+        #endif
+    }
 }
 
 
