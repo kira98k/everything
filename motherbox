@@ -38,6 +38,13 @@ run() {
 	-it $IMAGE make -f Docker.makefile $@
 }
 
+interact() {
+    docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+	-p 8001-8010:8001-8010 -h motherbox \
+	-v $CURR_DIR:/code \
+	-it $IMAGE bash
+}
+
 
 if [[ $command == "build" ]]; then
 	build --no-cache
@@ -45,6 +52,8 @@ if [[ $command == "build" ]]; then
 elif [[ $command == "clean" ]]; then
 	clean
 	exit 0
+elif [[ $command == "interact" ]]; then
+    interact
 elif [[ $command == "" ]]; then
 	command="cpp"
 fi

@@ -12,10 +12,12 @@
 #define pi(x) printf("%d ", x)
 #define pll(x) printf("%lld ", x)
 #define pvll(x) for(auto it : x)    pll(it);
+#define debug(x) cout << #x" : " << x << endl;
 #define nl printf("\n")
 #define clr(a) memset(a, 0, sizeof(a))
 #define PB push_back
 #define MP make_pair
+
 using namespace std;
 typedef unsigned int UI; // 32 bit integer
 typedef long int LI; // 32 bit integer
@@ -78,27 +80,32 @@ YOU CAN DO THIS! ;)
 5. Always check output format.
 */
 void solve() {
-    cout << "Hello, World!" << endl;
+    sll(n); sll(m); sll(k);
+    svll(a, n);
+    
 }
 
 int main() {
 
-    // sll(t);
-    LL t = 1;
+    sll(t);
+    // LL t = 1;
 
+    #ifdef DEBUG
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    cout << "------------------------------" << endl;
+    #endif
     rep(tc, 0, t) {
         #ifdef DEBUG
-        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-        cout << "Case #" << tc << ": " << endl;
-        cout << "------------------------------" << endl;
+        cout << "Case #" << tc+1 << endl;
         #endif
         solve();
         #ifdef DEBUG
-        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-        cout << "------------------------------" << endl;
-        cout << "Time Taken: " << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << "[ms]" << endl << endl;
+        cout << "End Case #" << tc+1 << endl;
         #endif
     }
+    #ifdef DEBUG
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    cout << "------------------------------" << endl;
+    cout << "Time Taken: " << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << "[ms]" << endl << endl;
+    #endif
 }
-
-
