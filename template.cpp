@@ -68,8 +68,6 @@ inline LL scanLong() {
     return n*sign;
 }
 
-
-
 /*
 YOU CAN DO THIS! ;)
 0. Always check edge cases
@@ -80,9 +78,6 @@ YOU CAN DO THIS! ;)
 5. Always check output format.
 */
 void solve() {
-    sll(n); sll(m); sll(k);
-    svll(a, n);
-    
 }
 
 int main() {
